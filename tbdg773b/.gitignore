@@ -39,6 +39,7 @@ modules.builtin
 /tags
 /TAGS
 /linux
+/nbproject
 /vmlinux
 /vmlinuz
 /System.map
