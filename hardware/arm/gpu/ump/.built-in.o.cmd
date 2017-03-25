@@ -1,0 +1,1 @@
+cmd_drivers/amlogic/../../../hardware/arm/gpu/ump/built-in.o :=  rm -f drivers/amlogic/../../../hardware/arm/gpu/ump/built-in.o; arm-linux-androideabi-ar rcsD drivers/amlogic/../../../hardware/arm/gpu/ump/built-in.o
