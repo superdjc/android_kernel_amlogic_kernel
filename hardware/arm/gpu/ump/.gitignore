@@ -1,2 +1,4 @@
 *.*.o.cmd
 /.version
+*.mod.c
+*.o
