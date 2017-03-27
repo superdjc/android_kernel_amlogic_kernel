@@ -283,7 +283,7 @@ ifeq ($(CONFIG_USE_OF),y)
 KBUILD_DTBS := dtbs
 endif
 
-all:	$(KBUILD_IMAGE) $(KBUILD_DTBS)
+all:	$(KBUILD_IMAGE) 
 
 boot := arch/arm/boot
 
@@ -327,7 +327,6 @@ define archhelp
   echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boot/Image)'
   echo  '* xipImage      - XIP kernel image, if configured (arch/$(ARCH)/boot/xipImage)'
   echo  '  uImage        - U-Boot wrapped zImage'
-  echo  '  uImage-dtb.*  - U-Boot wrapped zImage with appended dtb blob for machine=*'
   echo  '  bootpImage    - Combined zImage and initial RAM disk'
   echo  '                  (supply initrd image via make variable INITRD=<path>)'
   echo  '* dtbs          - Build device tree blobs for enabled boards'

@@ -13,22 +13,22 @@
 TARGET_PLATFORM ?= aml-meson
 CONFIG ?= aml-meson-m400-1
 
-
+UMP_DIR := $(srctree)/../hardware/arm/gpu/ump
 # Validate selected config
-ifneq ($(shell [ -d $(src)/arch-$(CONFIG) ] && [ -f  $(src)/arch-$(CONFIG)/config.h ] && echo "OK"), OK)
-$(warning Current directory is $(src))
-$(error No configuration found for config $(CONFIG). Check that arch-$(CONFIG)/config.h exists)
+ifneq ($(shell [ -d $(UMP_DIR)/arch-$(CONFIG) ] && [ -f  $(UMP_DIR)/arch-$(CONFIG)/config.h ] && echo "OK"), OK)
+$(warning Current directory is $(UMP_DIR))
+$(error No configuration found for config $(CONFIG). Check that $(UMP_DIR)/arch-$(CONFIG)/config.h exists)
 else
 # Link arch to the selected arch-config directory
-$(shell [ -L $(src)/arch ] && rm $(src)/arch)
-$(shell ln -sf arch-$(CONFIG) $(src)/arch)
-$(shell touch $(src)/arch/config.h)
+$(shell [ -L $(UMP_DIR)/arch ] && rm $(UMP_DIR)/arch)
+$(shell ln -sf arch-$(CONFIG) $(UMP_DIR)/arch)
+$(shell touch $(UMP_DIR)/arch/config.h)
 endif
 
 UDD_FILE_PREFIX = ../mali/
 
 # Get subversion revision number, fall back to 0000 if no svn info is available
-SVN_INFO = (cd $(src); svn info 2>/dev/null)
+SVN_INFO = (cd $(UMP_DIR); svn info 2>/dev/null)
 
 ifneq ($(shell $(SVN_INFO) 2>/dev/null),)
 # SVN detected
@@ -38,13 +38,13 @@ CHANGE_DATE := $(shell $(SVN_INFO) | grep '^Last Changed Date: ' | cut -d: -f2- 
 CHANGED_REVISION := $(shell $(SVN_INFO) | grep '^Last Changed Rev: ' | cut -d: -f2- | cut -b2-)
 REPO_URL := $(shell $(SVN_INFO) | grep '^URL: ' | cut -d: -f2- | cut -b2-)
 else # SVN
-GIT_REV := $(shell cd $(src); git describe --always 2>/dev/null)
+GIT_REV := $(shell cd $(UMP_DIR); git describe --always 2>/dev/null)
 ifneq ($(GIT_REV),)
 # Git detected
 DRIVER_REV := $(MALI_RELEASE_NAME)-$(GIT_REV)
-CHANGE_DATE := $(shell cd $(src); git log -1 --format="%ci")
+CHANGE_DATE := $(shell cd $(UMP_DIR); git log -1 --format="%ci")
 CHANGED_REVISION := $(GIT_REV)
-REPO_URL := $(shell cd $(src); git describe --all --always 2>/dev/null)
+REPO_URL := $(shell cd $(UMP_DIR); git describe --all --always 2>/dev/null)
 else # Git
 # No Git or SVN detected
 DRIVER_REV := $(MALI_RELEASE_NAME)
@@ -55,7 +55,7 @@ endif
 ccflags-y += -DSVN_REV=$(SVN_REV)
 ccflags-y += -DSVN_REV_STRING=\"$(DRIVER_REV)\"
 
-ccflags-y += -I$(src) -I$(src)/common -I$(src)/linux -I$(src)/../mali/common -I$(src)/../mali/linux -I$(src)/include -I$(src)/../../ump/include/ump
+ccflags-y += -I$(UMP_DIR) -I$(UMP_DIR)/common -I$(UMP_DIR)/linux -I$(UMP_DIR)/../mali/common -I$(UMP_DIR)/../mali/linux -I$(UMP_DIR)/include -I$(UMP_DIR)/../../ump/include/ump
 ccflags-y += -DMALI_STATE_TRACKING=0
 ccflags-y += -DMALI_ENABLE_CPU_CYCLES=0
 ccflags-$(CONFIG_UMP_DEBUG) += -DDEBUG
@@ -64,10 +64,10 @@ ccflags-$(CONFIG_UMP_DEBUG) += -DDEBUG
 # The ARM proprietary product will only include the license/proprietary directory
 # The GPL product will only include the license/gpl directory
 
-ifeq ($(wildcard $(src)/linux/license/gpl/*),)
-ccflags-y += -I$(src)/linux/license/proprietary -I$(src)/../mali/linux/license/proprietary
+ifeq ($(wildcard $(UMP_DIR)/linux/license/gpl/*),)
+ccflags-y += -I$(UMP_DIR)/linux/license/proprietary -I$(UMP_DIR)/../mali/linux/license/proprietary
 else
-ccflags-y += -I$(src)/linux/license/gpl -I$(src)/../mali/linux/license/gpl
+ccflags-y += -I$(UMP_DIR)/linux/license/gpl -I$(UMP_DIR)/../mali/linux/license/gpl
 endif
 
 
