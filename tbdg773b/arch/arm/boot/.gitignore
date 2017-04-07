@@ -7,3 +7,4 @@ ccImage
 ccImage.*
 *.dtb
 zImage-dtb
+/uImage-dtb

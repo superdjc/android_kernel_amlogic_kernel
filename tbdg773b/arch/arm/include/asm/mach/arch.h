@@ -86,7 +86,7 @@ static const struct machine_desc __mach_desc_##_type	\
 static const struct machine_desc __mach_desc_##_name	\
  __used							\
  __attribute__((__section__(".arch.info.init"))) = {	\
-	.nr		= ~0,				\
+	.nr		= machine_arch_type,				\
 	.name		= _namestr,
 
 #endif

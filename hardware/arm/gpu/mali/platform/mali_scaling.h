@@ -16,10 +16,6 @@
 #ifndef __ARM_CORE_SCALING_H__
 #define __ARM_CORE_SCALING_H__
 
-#include <linux/types.h>
-#include <linux/workqueue.h>
-#include <linux/clk-private.h>
-
 enum mali_scale_mode_t {
 	MALI_PP_SCALING = 0,
 	MALI_PP_FS_SCALING,
@@ -29,15 +25,11 @@ enum mali_scale_mode_t {
 };
 
 typedef struct mali_dvfs_threshold_table {
-	uint32_t    freq_index;
-	uint32_t    voltage;
-	uint32_t    keep_count;
-	uint32_t    downthreshold;
-	uint32_t    upthreshold;
-    uint32_t    clk_freq;
-    const char  *clk_parent;
-    struct clk  *clkp_handle;
-    uint32_t    clkp_freq;
+	unsigned int freq_index;
+	unsigned int voltage;
+	unsigned int keep_count;
+	unsigned int downthreshold;
+	unsigned int upthreshold;
 } mali_dvfs_threshold_table;
 
 /**
@@ -72,26 +64,15 @@ typedef struct mali_plat_info_t {
 	u32 have_switch; /* have clock gate switch or not. */
 
 	mali_dvfs_threshold_table *dvfs_table;
-    struct mali_gpu_clk_item *clk_items;
 	u32 dvfs_table_size;
 
 	mali_scale_info_t scale_info;
-	u32 maxclk_sysfs;
-	u32 maxpp_sysfs;
 
 	/* set upper limit of pp or frequency, for THERMAL thermal or band width saving.*/
 	u32 limit_on;
 
 	/* for boost up gpu by user. */
 	void (*plat_preheat)(void);
-
-    struct platform_device *pdev;
-    void __iomem *reg_base_hiubus;
-    void __iomem *reg_base_aobus;
-	struct work_struct wq_work;
-    struct clk *clk_mali;
-    struct clk *clk_mali_0;
-    struct clk *clk_mali_1;
 } mali_plat_info_t;
 mali_plat_info_t* get_mali_plat_data(void);
 
@@ -118,8 +99,6 @@ void flush_scaling_job(void);
 void get_mali_rt_clkpp(u32* clk, u32* pp);
 u32 set_mali_rt_clkpp(u32 clk, u32 pp, u32 flush);
 void revise_mali_rt(void);
-/* get max gpu clk level of this chip*/
-int get_gpu_max_clk_level(void);
 
 /* get or set the scale mode. */
 u32 get_mali_schel_mode(void);
@@ -127,8 +106,6 @@ void set_mali_schel_mode(u32 mode);
 
 /* for frequency reporter in DS-5 streamline. */
 u32 get_current_frequency(void);
-void mali_dev_freeze(void);
-void mali_dev_restore(void);
 
 extern int mali_pm_statue;
 #endif /* __ARM_CORE_SCALING_H__ */

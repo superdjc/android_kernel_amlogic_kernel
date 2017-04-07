@@ -80,6 +80,9 @@ static const struct of_device_id mesnon_dt_irq_match[] __initconst = {
 	{ }
 };
 #endif
+#ifdef CONFIG_MESON_ARM_GIC_FIQ
+extern void init_fiq(void)	;
+#endif
 /* ARM Interrupt Controller Initialization */
 void __init meson_init_gic_irq(void)
 {
@@ -93,7 +96,6 @@ void __init meson_init_gic_irq(void)
     aml_write_reg32(IO_PERIPH_BASE+0x100 +GIC_CPU_PRIMASK,0xff);
 
 #ifdef CONFIG_MESON_ARM_GIC_FIQ
-extern void init_fiq(void)	;
 	init_fiq();
 #endif
 }

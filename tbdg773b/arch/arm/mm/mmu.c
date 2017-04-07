@@ -608,7 +608,7 @@ static void __init early_pte_install(pmd_t *pmd, pte_t *pte, unsigned long prot)
 	BUG_ON(pmd_bad(*pmd));
 }
 
-static pte_t * __init early_pte_alloc_and_install(pmd_t *pmd,
+static inline pte_t * __init early_pte_alloc_and_install(pmd_t *pmd,
 	unsigned long addr, unsigned long prot)
 {
 	if (pmd_none(*pmd)) {

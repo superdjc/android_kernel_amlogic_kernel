@@ -15,6 +15,7 @@
 
 //#include "register.h"
 //#include "utils.h"
+//void __init meson_map_default_io(void);
 
 
 ///amlogic old style driver porting
@@ -155,6 +156,5 @@
 #define SECBUS_REG_ADDR(reg)     (IO_SECBUS_BASE+SECBUS_REG_OFFSET(reg))
 #define SECBUS2_REG_ADDR(reg)       (IO_SECURE_BASE+0x2000+SECBUS_REG_OFFSET(reg))
 
-void meson_map_default_io(void);
 
 #endif //__MACH_MESSON3_REGS_H

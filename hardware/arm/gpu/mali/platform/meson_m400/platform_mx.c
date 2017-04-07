@@ -137,9 +137,8 @@ int mali_meson_init_start(struct platform_device* ptr_plt_dev)
 {
 	/* for mali platform data. */
 	struct mali_gpu_device_data* pdev = ptr_plt_dev->dev.platform_data;
-
-	pdev->control_interval = 1000;
-	pdev->utilization_callback = mali_gpu_utilization_callback;
+	pdev->utilization_interval = 1000,
+	pdev->utilization_callback = mali_gpu_utilization_callback,
 
 	/* for resource data. */
 	ptr_plt_dev->num_resources = ARRAY_SIZE(meson_mali_resources);
@@ -227,11 +226,6 @@ int mali_deep_resume(struct device *device)
 void mali_core_scaling_term(void)
 {
 
-}
-
-int get_gpu_max_clk_level(void)
-{
-    return 0;
 }
 
 void mali_post_init(void)

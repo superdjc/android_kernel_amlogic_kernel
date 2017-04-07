@@ -7,15 +7,12 @@
 
 #ifndef MESON_MAIN_H_
 #define MESON_MAIN_H_
-#include <linux/version.h>
 #include <linux/kernel.h>
 #include <linux/platform_device.h>
 #ifdef CONFIG_PM_RUNTIME
 #include <linux/pm_runtime.h>
 #endif
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 29))
 #include <mach/cpu.h>
-#endif
 
 #include "mali_scaling.h"
 #include "mali_clock.h"

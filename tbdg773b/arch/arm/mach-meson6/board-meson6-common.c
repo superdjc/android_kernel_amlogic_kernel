@@ -18,6 +18,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#include <generated/mach-types.h>
+//#include "board-meson6-common.h"
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/mm.h>
@@ -50,7 +52,7 @@ static void meson_map_board_io(void);
 extern unsigned long long aml_reserved_start;
 extern unsigned long long aml_reserved_end;
 extern void __init meson_timer_init(void);
-
+extern void __init meson_map_default_io(void);
 //#ifdef CONFIG_AMLOGIC_VIDEOIN_MANAGER && CONFIG_CMA
 #ifdef CONFIG_CMA
 static int __init early_dt_scan_vm(unsigned long node, const char *uname,
@@ -75,7 +77,7 @@ static int __init early_dt_scan_vm(unsigned long node, const char *uname,
 }
 #endif
 
-static __init void meson6_reserve(void)
+static void __init  meson6_reserve(void)
 {
 
 #ifdef CONFIG_CMA
@@ -83,9 +85,9 @@ static __init void meson6_reserve(void)
 #endif
 }
 
-__initdata struct map_desc meson_board_io_desc[1];
+ __initdata  struct map_desc meson_board_io_desc[1];
 
-static __init void meson_map_board_io(void)
+static void __init  meson_map_board_io(void)
 {
 	meson_board_io_desc[0].virtual = PAGE_ALIGN(__phys_to_virt(aml_reserved_start)),
 	meson_board_io_desc[0].pfn = __phys_to_pfn(aml_reserved_start),
@@ -128,7 +130,7 @@ static struct syscore_ops mmc_lp_syscore_ops = {
     .resume     = mmc_lp_resume,
 };
 
-static __init void mmc_lp_suspend_init(void)
+static void __init  mmc_lp_suspend_init(void)
 {
     register_syscore_ops(&mmc_lp_syscore_ops);
 }
@@ -139,7 +141,7 @@ static void power_off(void)
 	kernel_restart("charging_reboot");
 }
 
-static __init void meson_init_machine_devicetree(void)
+static void __init  meson_init_machine_devicetree(void)
 {
 	struct device *parent;	
 	parent = get_device(&platform_bus);
@@ -154,7 +156,7 @@ static __init void meson_init_machine_devicetree(void)
 
 
 
-static __init void meson_init_early(void)
+static void __init  meson_init_early(void)
 {
 	/*
 	 * Mali or some USB devices allocate their coherent buffers from atomic
@@ -176,7 +178,7 @@ static const char *m6_common_board_compat[] __initdata = {
 	NULL,
 };
 
-DT_MACHINE_START(AML8726_MX, "Amlogic Meson6")
+DT_MACHINE_START(AML8726_MXS, "Amlogic Meson6")
 	.reserve	= meson6_reserve,
 //.nr_irqs	= 
 	.smp		= smp_ops(meson_smp_ops),
