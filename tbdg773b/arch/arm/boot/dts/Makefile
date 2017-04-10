@@ -2,7 +2,7 @@ ifeq ($(CONFIG_OF),y)
 
 # Keep at91 dtb files sorted alphabetically for each SoC
 # rm9200
-dtb-$(CONFIG_ARCH_MESON6)	+= amlogic/meson6.dtb
+dtb-$(CONFIG_ARCH_MESON6)	+= meson6.dtb
 dtb-$(CONFIG_ARCH_AT91) += at91rm9200ek.dtb
 dtb-$(CONFIG_ARCH_AT91) += mpa1600.dtb
 # sam9260
@@ -220,6 +220,9 @@ endif
 
 targets += dtbs
 targets += $(DTB_LIST)
+$(info "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
+$(info $(DTB_LIST))
+$(info "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
 endif
 
 # *.dtb used to be generated in the directory above. Clean out the

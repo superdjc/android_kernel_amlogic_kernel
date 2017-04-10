@@ -283,7 +283,7 @@ ifeq ($(CONFIG_USE_OF),y)
 KBUILD_DTBS := dtbs
 endif
 
-all:	$(KBUILD_IMAGE) 
+all:	$(KBUILD_IMAGE) $(KBUILD_DTBS)
 
 boot := arch/arm/boot
 
@@ -306,9 +306,7 @@ zinstall uinstall install: vmlinux
 	rm  $(firstword $(wildcard $(srctree)/$(boot)/dts/amlogic/$(subst dtb,dts,$@) $(srctree)/$(CUSTOMER_DIR_NAME)/meson/dt/$(subst dtb,dts,$@)))
 
 dtbs: scripts
-	$(Q)$(MAKE) $(build)=$(subst $(wildcard $(srctree)//),,$(subst $(join /,$(subst dtb,dts,$@)),,$(firstword $(wildcard $(srctree)/$(boot)/dts/amlogic/$(subst dtb,dts,$@) $(srctree)/$(CUSTOMER_DIR_NAME)/meson/dt/$(subst dtb,dts,$@))))) \
-	MACHINE=$(MACHINE) \
-	dtbs
+	$(Q)$(MAKE) $(build)=$(boot)/dts MACHINE=$(MACHINE) dtbs
 
 zImage-dtb: vmlinux scripts dtbs
 	$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/$@

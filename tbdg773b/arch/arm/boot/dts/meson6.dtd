@@ -67,8 +67,8 @@ void root_func(){
 //$$ L2 PROP_U32 = "linux,usable-memory"
 	memory{
 		device_type = "memory";
-		aml_reserved_start = <0x84000000>; /**reserved memory start-for kernel */
-		aml_reserved_end = <0x8C000000>;/**reserved uImage and dtb memory-for uboot*/
+		aml_reserved_start = <0x85000000>; /**reserved memory start-for kernel */
+		aml_reserved_end = <0x84000000>;/**reserved uImage and dtb memory-for uboot*/
 		phys_offset = <0x80000000>;
 		linux,total-memory = <0x40000000>;/**0x40000000--1G memory 0x80000000--2G memory*/
 	};
